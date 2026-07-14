@@ -21,7 +21,7 @@ namespace BrightistRenderer.Texts.Layouts
                 LineHeight = 15,
                 LineWidth = -1,
                 TextScale = 1f,
-                TextSpacing = 0
+                TextSpacing = 1
             };
 
             FontData? font = FontProvider.GetSmallStoryFont();
@@ -44,7 +44,7 @@ namespace BrightistRenderer.Texts.Layouts
                 LineHeight = 15,
                 LineWidth = -1,
                 TextScale = 1f,
-                TextSpacing = 0
+                TextSpacing = 1
             };
 
             FontData? font = FontProvider.GetLargePopupFont();
@@ -67,7 +67,7 @@ namespace BrightistRenderer.Texts.Layouts
                 LineHeight = 15,
                 LineWidth = -1,
                 TextScale = 1f,
-                TextSpacing = 0
+                TextSpacing = 1
             };
 
             FontData? font = FontProvider.GetLargePopupFont();

@@ -26,9 +26,9 @@ namespace BrightistRenderer.Texts.Fonts.Glyphs
             if (_glyphCache.TryGetValue(code, out GlyphData? cachedGlyph))
                 return cachedGlyph;
 
-            Image<Rgba32> glyph = CreateEmptyGlyph();
+            Image<Rgba32> glyph = CreateGlyph(code);
             if (_glyphLookup.TryGetValue(code, out byte[]? glyphData))
-                DrawGlyph(glyph, glyphData, textColor);
+                DrawGlyph(code, glyph, glyphData, textColor);
 
             if (code is not 0x8140 && glyphData == null)
                 return null;
@@ -67,8 +67,8 @@ namespace BrightistRenderer.Texts.Fonts.Glyphs
         protected abstract CharacterDescriptionData CreateCharacterDescription(ushort code);
         protected abstract GlyphDescriptionData CreateGlyphDescription(ushort code);
 
-        protected abstract Image<Rgba32> CreateEmptyGlyph();
+        protected abstract Image<Rgba32> CreateGlyph(ushort code);
 
-        protected abstract void DrawGlyph(Image<Rgba32> glyph, byte[] data, Rgb24 textColor);
+        protected abstract void DrawGlyph(ushort code, Image<Rgba32> glyph, byte[] data, Rgb24 textColor);
     }
 }

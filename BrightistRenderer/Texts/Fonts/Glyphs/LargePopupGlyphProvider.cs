@@ -18,7 +18,7 @@ namespace BrightistRenderer.Texts.Fonts.Glyphs
         {
             return new CharacterDescriptionData
             {
-                X = VariableWidthProvider.GetCharacterX(code, 0),
+                X = 0,
                 Width = VariableWidthProvider.GetCharacterWidth(code, GlyphWidth_)
             };
         }
@@ -29,17 +29,17 @@ namespace BrightistRenderer.Texts.Fonts.Glyphs
             {
                 X = 0,
                 Y = 0,
-                Width = GlyphWidth_,
+                Width = VariableWidthProvider.GetCharacterWidth(code, GlyphWidth_),
                 Height = GlyphHeight_
             };
         }
 
-        protected override Image<Rgba32> CreateEmptyGlyph()
+        protected override Image<Rgba32> CreateGlyph(ushort code)
         {
-            return new Image<Rgba32>(GlyphWidth_, GlyphHeight_);
+            return new Image<Rgba32>(VariableWidthProvider.GetCharacterWidth(code, GlyphWidth_), GlyphHeight_);
         }
 
-        protected override void DrawGlyph(Image<Rgba32> glyph, byte[] data, Rgb24 textColor)
+        protected override void DrawGlyph(ushort code, Image<Rgba32> glyph, byte[] data, Rgb24 textColor)
         {
             var previousColor = new Rgba32(0, 0, 0);
             for (var glyphInnerIndex = 0; glyphInnerIndex < data.Length * 8; glyphInnerIndex++)
