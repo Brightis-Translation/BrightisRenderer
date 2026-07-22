@@ -3,6 +3,7 @@ using ImGui.Forms.Controls;
 using ImGui.Forms.Controls.Layouts;
 using System.Numerics;
 using ImGui.Forms.Controls.Menu;
+using BrightistRenderer.Models.Texts.Fonts;
 
 namespace BrightistRenderer.UI.Forms
 {
@@ -11,8 +12,15 @@ namespace BrightistRenderer.UI.Forms
         private MainMenuBar _mainMenu;
 
         private MenuBarMenu _metricsMenu;
+        private MenuBarMenu _settingsMenu;
+
         private MenuBarButton _metricsStoryMenu;
         private MenuBarButton _metricsPopupMenu;
+
+        private MenuBarRadio _fontTypeMenu;
+        private MenuBarCheckBox _biosFontTypeMenu;
+        private MenuBarCheckBox _kay1FontTypeMenu;
+        private MenuBarCheckBox _kay4FontTypeMenu;
 
         private StackLayout _mainLayout;
 
@@ -24,6 +32,20 @@ namespace BrightistRenderer.UI.Forms
             _metricsStoryMenu = new MenuBarButton(StringResourceProvider.MenuMetricsStoryCaption());
             _metricsPopupMenu = new MenuBarButton(StringResourceProvider.MenuMetricsPopupCaption());
 
+            _biosFontTypeMenu = new MenuBarCheckBox(StringResourceProvider.MenuSettingsFontTypeBiosCaption());
+            _kay1FontTypeMenu = new MenuBarCheckBox(StringResourceProvider.MenuSettingsFontTypeKay1Caption());
+            _kay4FontTypeMenu = new MenuBarCheckBox(StringResourceProvider.MenuSettingsFontTypeKay4Caption());
+
+            _fontTypeMenu = new MenuBarRadio(StringResourceProvider.MenuSettingsFontTypeCaption())
+            {
+                CheckItems =
+                {
+                    _biosFontTypeMenu,
+                    _kay1FontTypeMenu,
+                    _kay4FontTypeMenu
+                }
+            };
+
             _metricsMenu = new MenuBarMenu(StringResourceProvider.MenuMetricsCaption())
             {
                 Items =
@@ -33,11 +55,20 @@ namespace BrightistRenderer.UI.Forms
                 }
             };
 
+            _settingsMenu = new MenuBarMenu(StringResourceProvider.MenSettingsCaption())
+            {
+                Items =
+                {
+                    _fontTypeMenu
+                }
+            };
+
             _mainMenu = new MainMenuBar
             {
                 Items =
                 {
-                    _metricsMenu
+                    _metricsMenu,
+                    _settingsMenu
                 }
             };
 
@@ -61,6 +92,26 @@ namespace BrightistRenderer.UI.Forms
 
             Size = new Vector2(1500, 800);
             Title = StringResourceProvider.FormTitleCaption();
+
+            InitializeFontType();
+        }
+
+        private void InitializeFontType()
+        {
+            switch (SettingsProvider.Instance.GetFontType())
+            {
+                case FontType.Bios:
+                    _biosFontTypeMenu.Checked = true;
+                    break;
+
+                case FontType.Kay1:
+                    _kay1FontTypeMenu.Checked = true;
+                    break;
+
+                case FontType.Kay4:
+                    _kay4FontTypeMenu.Checked = true;
+                    break;
+            }
         }
     }
 }

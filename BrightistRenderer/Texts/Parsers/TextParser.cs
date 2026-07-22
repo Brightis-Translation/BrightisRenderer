@@ -1,6 +1,5 @@
 ﻿using BrightistRenderer.Models.Texts.Parsers;
 using BrightistRenderer.Models.Texts.Parsers.ControlCodes;
-using BrightistRenderer.Texts.Characters;
 
 namespace BrightistRenderer.Texts.Parsers
 {
@@ -158,13 +157,9 @@ namespace BrightistRenderer.Texts.Parsers
             if (text[position] < 0x20)
                 return null;
 
-            ushort mappedChar = Ascii2SjisCharacterMapping.Map(text[position]);
-            if (mappedChar == ushort.MaxValue)
-                return null;
-
             return new FontCharacterData
             {
-                Character = mappedChar
+                Character = text[position]
             };
         }
     }

@@ -14,15 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="overlay_config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="UI\Localizations\Resources\en.json">
+    <None Update="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="config.json.user" Condition="Exists('config.json.user')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,12 +34,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Fonts\Resources\roboto.ttf">
       <LogicalName>roboto.ttf</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Texts\Fonts\Resources\font1.raw">
-      <LogicalName>font1.raw</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Texts\Fonts\Resources\font2.raw">
-      <LogicalName>font2.raw</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -66,11 +60,37 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Texts\Fonts\Kay1\Resources\" />
+    <Folder Include="Texts\Fonts\Kay4\Resources\" />
+  </ItemGroup>
+
   <Target Name="CopyEnLocalization" AfterTargets="AfterBuild">
     <Copy SourceFiles="UI\Localizations\Resources\en.json" DestinationFolder="$(OutDir)\resources\langs" />
   </Target>
   <Target Name="CopyEnLocalizationPublish" AfterTargets="Publish">
     <Copy SourceFiles="UI\Localizations\Resources\en.json" DestinationFolder="$(PublishDir)\resources\langs" />
+  </Target>
+
+  <Target Name="CopyBiosFonts" AfterTargets="AfterBuild">
+    <Copy SourceFiles="Texts\Fonts\Bios\Resources\font1.raw;Texts\Fonts\Bios\Resources\font2.raw" DestinationFolder="$(OutDir)\resources\font\bios" />
+  </Target>
+  <Target Name="CopyBiosFontsPublish" AfterTargets="Publish">
+    <Copy SourceFiles="Texts\Fonts\Bios\Resources\font1.raw;Texts\Fonts\Bios\Resources\font2.raw" DestinationFolder="$(PublishDir)\resources\font\bios" />
+  </Target>
+
+  <Target Name="CopyKay1Fonts" AfterTargets="AfterBuild">
+    <Copy SourceFiles="Texts\Fonts\Kay1\Resources\dims.bin;Texts\Fonts\Kay1\Resources\font.bin;Texts\Fonts\Kay1\Resources\offsets.bin;Texts\Fonts\Kay1\Resources\ymins.bin;" DestinationFolder="$(OutDir)\resources\font\kay1" />
+  </Target>
+  <Target Name="CopyKay1FontsPublish" AfterTargets="Publish">
+    <Copy SourceFiles="Texts\Fonts\Kay1\Resources\dims.bin;Texts\Fonts\Kay1\Resources\font.bin;Texts\Fonts\Kay1\Resources\offsets.bin;Texts\Fonts\Kay1\Resources\ymins.bin;" DestinationFolder="$(OutDir)\resources\font\kay1" />
+  </Target>
+
+  <Target Name="CopyKay4Fonts" AfterTargets="AfterBuild">
+    <Copy SourceFiles="Texts\Fonts\Kay4\Resources\dims.bin;Texts\Fonts\Kay4\Resources\full_dims.bin;Texts\Fonts\Kay4\Resources\font.bin;Texts\Fonts\Kay4\Resources\offsets.bin;Texts\Fonts\Kay4\Resources\ymins.bin;" DestinationFolder="$(OutDir)\resources\font\kay4" />
+  </Target>
+  <Target Name="CopyKay4FontsPublish" AfterTargets="Publish">
+    <Copy SourceFiles="Texts\Fonts\Kay4\Resources\dims.bin;Texts\Fonts\Kay4\Resources\full_dims.bin;Texts\Fonts\Kay4\Resources\font.bin;Texts\Fonts\Kay4\Resources\offsets.bin;Texts\Fonts\Kay4\Resources\ymins.bin;" DestinationFolder="$(OutDir)\resources\font\kay4" />
   </Target>
 
 </Project>

@@ -1,82 +1,59 @@
-﻿using System.Reflection;
-using BrightistRenderer.Models.Texts.Fonts;
-using BrightistRenderer.Texts.Fonts.Glyphs;
+﻿using BrightistRenderer.Models.Texts.Fonts;
+using BrightistRenderer.Texts.Fonts.Bios;
+using BrightistRenderer.Texts.Fonts.Kay1;
+using BrightistRenderer.Texts.Fonts.Kay4;
 
 namespace BrightistRenderer.Texts.Fonts
 {
     internal class FontProvider
     {
-        private static readonly FontData?[] Fonts = new FontData?[3];
+        private static readonly Dictionary<FontType, FontData?[]> Fonts = new();
 
-        private static BiosFontGlyphStruct[]? _glyphsData;
-
-        public static FontData? GetLargePopupFont()
+        public static FontData GetLargePopupFont(FontType type)
         {
-            if (Fonts[0] != null)
-                return Fonts[0]!;
+            FontData?[] fonts = GetFont(type);
 
-            BiosFontGlyphStruct[]? glyphsData = ReadGlyphsData();
-            if (glyphsData == null)
-                return null;
-
-            return Fonts[0] = new FontData
+            return fonts[0] ??= type switch
             {
-                MaxHeight = 16,
-                FallbackCharacter = 0x8148,
-                Glyphs = new LargePopupGlyphProvider(glyphsData)
+                FontType.Bios => BiosFontProvider.CreateLargePopupFont(),
+                FontType.Kay1 => Kay1FontProvider.CreateLargePopupFont(),
+                FontType.Kay4 => Kay4FontProvider.CreateLargePopupFont(),
+                _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
         }
 
-        public static FontData? GetSmallPopupFont()
+        public static FontData GetSmallPopupFont(FontType type)
         {
-            if (Fonts[1] != null)
-                return Fonts[1]!;
+            FontData?[] fonts = GetFont(type);
 
-            BiosFontGlyphStruct[]? glyphsData = ReadGlyphsData();
-            if (glyphsData == null)
-                return null;
-
-            return Fonts[1] = new FontData
+            return fonts[1] ??= type switch
             {
-                MaxHeight = 13,
-                FallbackCharacter = 0x8148,
-                Glyphs = new SmallPopupGlyphProvider(glyphsData)
+                FontType.Bios => BiosFontProvider.CreateSmallPopupFont(),
+                FontType.Kay1 => Kay1FontProvider.CreateSmallPopupFont(),
+                FontType.Kay4 => Kay4FontProvider.CreateSmallPopupFont(),
+                _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
         }
 
-        public static FontData? GetSmallStoryFont()
+        public static FontData GetSmallStoryFont(FontType type)
         {
-            if (Fonts[2] != null)
-                return Fonts[2]!;
+            FontData?[] fonts = GetFont(type);
 
-            BiosFontGlyphStruct[]? glyphsData = ReadGlyphsData();
-            if (glyphsData == null)
-                return null;
-
-            return Fonts[2] = new FontData
+            return fonts[2] ??= type switch
             {
-                MaxHeight = 13,
-                FallbackCharacter = 0x8148,
-                Glyphs = new SmallStoryGlyphProvider(glyphsData)
+                FontType.Bios => BiosFontProvider.CreateSmallStoryFont(),
+                FontType.Kay1 => Kay1FontProvider.CreateSmallStoryFont(),
+                FontType.Kay4 => Kay4FontProvider.CreateSmallStoryFont(),
+                _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
         }
 
-        private static BiosFontGlyphStruct[]? ReadGlyphsData()
+        private static FontData?[] GetFont(FontType type)
         {
-            if (_glyphsData != null)
-                return _glyphsData;
+            if (!Fonts.TryGetValue(type, out FontData?[]? fonts))
+                Fonts[type] = fonts = new FontData?[3];
 
-            Stream? rawFont1 = GetFontStream("font1.raw");
-            Stream? rawFont2 = GetFontStream("font2.raw");
-            if (rawFont1 == null || rawFont2 == null)
-                return null;
-
-            return _glyphsData = BiosFontReader.Read(rawFont1, rawFont2);
-        }
-
-        private static Stream? GetFontStream(string resourceName)
-        {
-            return Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            return fonts;
         }
     }
 }

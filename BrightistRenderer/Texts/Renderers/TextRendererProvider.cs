@@ -8,16 +8,14 @@ namespace BrightistRenderer.Texts.Renderers
 {
     internal class TextRendererProvider
     {
-        private static TextRenderer?[] _renderers = new TextRenderer?[2];
+        private static readonly TextRenderer?[] Renderers = new TextRenderer?[2];
 
-        public static TextRenderer? GetStoryText()
+        public static TextRenderer GetStoryText(FontType type)
         {
-            if (_renderers[0] != null)
-                return _renderers[0]!;
+            if (Renderers[0] != null)
+                return Renderers[0]!;
 
-            FontData? font = FontProvider.GetSmallStoryFont();
-            if (font == null)
-                return null;
+            FontData font = FontProvider.GetSmallStoryFont(type);
 
             var options = new RenderOptions
             {
@@ -26,17 +24,15 @@ namespace BrightistRenderer.Texts.Renderers
                 VisibleLines = 3
             };
 
-            return _renderers[0] = new TextRenderer(font, options);
+            return Renderers[0] = new TextRenderer(font, options);
         }
 
-        public static TextRenderer? GetPopupText()
+        public static TextRenderer GetPopupText(FontType type)
         {
-            if (_renderers[1] != null)
-                return _renderers[1]!;
+            if (Renderers[1] != null)
+                return Renderers[1]!;
 
-            FontData? font = FontProvider.GetLargePopupFont();
-            if (font == null)
-                return null;
+            FontData font = FontProvider.GetLargePopupFont(type);
 
             var options = new RenderOptions
             {
@@ -45,7 +41,7 @@ namespace BrightistRenderer.Texts.Renderers
                 VisibleLines = 1
             };
 
-            return _renderers[1] = new TextRenderer(font, options);
+            return Renderers[1] = new TextRenderer(font, options);
         }
     }
 }

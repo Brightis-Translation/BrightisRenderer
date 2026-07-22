@@ -1,4 +1,5 @@
 ﻿using BrightistRenderer.Models.Sheets;
+using BrightistRenderer.Models.Texts.Fonts;
 using BrightistRenderer.Models.UI.Events.Messages;
 using BrightistRenderer.Sheets;
 using BrightistRenderer.UI.Components;
@@ -39,6 +40,8 @@ namespace BrightistRenderer.UI.Forms
 
             _metricsStoryMenu!.Clicked += _metricsStoryMenu_Clicked;
             _metricsPopupMenu!.Clicked += _metricsPopupMenu_Clicked;
+
+            _biosFontTypeMenu.CheckChanged += _biosFontTypeMenu_CheckChanged;
 
             _overlayGroupsControl.PageRemoving += OverlayGroupsControl_PageRemoving;
             _overlayGroupsControl.PageRemoved += OverlayGroupsControl_PageRemoved;
@@ -103,6 +106,13 @@ namespace BrightistRenderer.UI.Forms
         {
             _storyMetricsDialog ??= new MetricsStoryDialog();
             await _storyMetricsDialog.ShowAsync();
+        }
+
+        private void _biosFontTypeMenu_CheckChanged(object? sender, EventArgs e)
+        {
+            SettingsProvider.Instance.SetFontType(FontType.Bios);
+
+            EventBroker.Instance.Raise(new FontTypeChangedMessage(FontType.Bios));
         }
 
         private void LoadTexts()

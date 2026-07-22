@@ -1,4 +1,4 @@
-﻿namespace BrightistRenderer.Texts.Fonts.Glyphs
+﻿namespace BrightistRenderer.Texts.Fonts.Bios.Glyphs
 {
     internal class VariableWidthProvider
     {

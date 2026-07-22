@@ -1,4 +1,4 @@
-﻿using BrightistRenderer.Texts.Fonts.Glyphs;
+﻿using BrightistRenderer.Texts.Fonts;
 
 namespace BrightistRenderer.Models.Texts.Fonts
 {
@@ -6,6 +6,6 @@ namespace BrightistRenderer.Models.Texts.Fonts
     {
         public int MaxHeight { get; set; }
         public ushort FallbackCharacter { get; set; }
-        public GlyphProvider Glyphs { get; set; }
+        public required IGlyphProvider Glyphs { get; set; }
     }
 }

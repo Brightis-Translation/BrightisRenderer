@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using BrightistRenderer.Models.Texts.Fonts;
 
 namespace BrightistRenderer
 {
@@ -16,7 +17,13 @@ namespace BrightistRenderer
             _values = CreateOrReadValues();
         }
 
-        public T Get<T>(string name, T defaultValue)
+        public string GetLocale() => Get("BrightistRenderer.Settings.Locale", string.Empty);
+        public void SetLocale(string locale) => Set("BrightistRenderer.Settings.Locale", locale);
+
+        public FontType GetFontType() => Get("BrightistRenderer.Settings.Font.Type", FontType.Bios);
+        public void SetFontType(FontType type) => Set("BrightistRenderer.Settings.Font.Type", type);
+
+        private T Get<T>(string name, T defaultValue)
         {
             if (!_values.TryGetValue(name, out string? value))
                 return defaultValue;
@@ -29,7 +36,7 @@ namespace BrightistRenderer
             return (T)Convert.ChangeType(value, type);
         }
 
-        public void Set<T>(string name, T? value)
+        private void Set<T>(string name, T? value)
         {
             if (value == null)
                 return;

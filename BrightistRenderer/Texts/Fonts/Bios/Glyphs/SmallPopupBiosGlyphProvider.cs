@@ -1,26 +1,22 @@
-﻿using BrightistRenderer.Models.Texts.Fonts;
+﻿using BrightistRenderer.Models.Texts.Fonts.Bios;
 using BrightistRenderer.Models.Texts.Fonts.Glyphs;
 using Komponent.Utilities;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace BrightistRenderer.Texts.Fonts.Glyphs
+namespace BrightistRenderer.Texts.Fonts.Bios.Glyphs
 {
-    internal class SmallStoryGlyphProvider : GlyphProvider
+    internal class SmallPopupBiosGlyphProvider(BiosFontGlyphStruct[] glyphsData) : BiosGlyphProvider(glyphsData)
     {
         private const int GlyphWidth_ = 13;
         private const int GlyphHeight_ = 13;
-
-        public SmallStoryGlyphProvider(BiosFontGlyphStruct[] glyphsData) : base(glyphsData)
-        {
-        }
 
         protected override CharacterDescriptionData CreateCharacterDescription(ushort code)
         {
             return new CharacterDescriptionData
             {
                 X = 0,
-                Width = VariableWidthProvider.GetCharacterWidth(code, GlyphWidth_)
+                Width = GlyphWidth_
             };
         }
 
@@ -30,14 +26,14 @@ namespace BrightistRenderer.Texts.Fonts.Glyphs
             {
                 X = 0,
                 Y = 0,
-                Width = VariableWidthProvider.GetCharacterWidth(code, GlyphWidth_),
+                Width = GlyphWidth_,
                 Height = GlyphHeight_
             };
         }
 
         protected override Image<Rgba32> CreateGlyph(ushort code)
         {
-            return new Image<Rgba32>(VariableWidthProvider.GetCharacterWidth(code, GlyphWidth_), GlyphHeight_);
+            return new Image<Rgba32>(GlyphWidth_, GlyphHeight_);
         }
 
         protected override void DrawGlyph(ushort code, Image<Rgba32> glyph, byte[] data, Rgb24 textColor)
@@ -47,7 +43,7 @@ namespace BrightistRenderer.Texts.Fonts.Glyphs
             do
             {
                 var x = 0;
-                var iVar14 = VariableWidthProvider.GetCharacterX(code, 0) * 5;
+                var iVar14 = 0;
                 do
                 {
                     var iVar10 = 0;
@@ -117,15 +113,8 @@ namespace BrightistRenderer.Texts.Fonts.Glyphs
                     Rgba32 color = Color.Transparent;
                     if (iVar10 != 0)
                     {
-                        var colorValue = (uint)(textColor.R * iVar10 >> 5);
-                        colorValue += (uint)(textColor.G * (ushort)iVar10 & 0xFFE0);
-                        colorValue += (uint)(textColor.B * iVar10 >> 5 << 10);
-
-                        var r = (byte)Conversion.UpscaleBitDepth((int)(colorValue & 0x1F), 5);
-                        var g = (byte)Conversion.UpscaleBitDepth((int)(colorValue >> 5 & 0x1F), 5);
-                        var b = (byte)Conversion.UpscaleBitDepth((int)(colorValue >> 10 & 0x1F), 5);
-
-                        color = new Rgba32(r, g, b, 255);
+                        var expandedValue = (byte)Conversion.UpscaleBitDepth(iVar10, 5);
+                        color = new Rgba32(expandedValue, expandedValue, expandedValue, 255);
                     }
 
                     glyph[x, y] = color;

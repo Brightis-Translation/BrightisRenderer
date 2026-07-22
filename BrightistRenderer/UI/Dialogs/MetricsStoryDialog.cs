@@ -148,9 +148,7 @@ namespace BrightistRenderer.UI.Dialogs
             if (blockCharacters == null)
                 return Array.Empty<MetricDetailData>();
 
-            TextLayouter? layouter = TextLayouterProvider.GetStoryText(lineCount);
-            if (layouter == null)
-                return Array.Empty<MetricDetailData>();
+            TextLayouter layouter = TextLayouterProvider.GetStoryText(SettingsProvider.Instance.GetFontType(), lineCount);
 
             TextLayoutData layout = layouter.Create(blockCharacters, BoundingBox);
             return _storyStrategy.Validate(layout, blockCharacters);

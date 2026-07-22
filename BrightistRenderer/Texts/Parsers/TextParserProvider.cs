@@ -14,7 +14,7 @@ namespace BrightistRenderer.Texts.Parsers
 
             var options = new ParserOptions
             {
-                PlayerName = ConfigProvider.Instance.GetPlayerName()
+                PlayerName = ConfigManager.Instance.GetPlayerName()
             };
 
             return _parsers[0] = new TextParser(options);

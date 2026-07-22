@@ -1,18 +1,14 @@
-﻿using BrightistRenderer.Models.Texts.Fonts;
+﻿using BrightistRenderer.Models.Texts.Fonts.Bios;
 using BrightistRenderer.Models.Texts.Fonts.Glyphs;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace BrightistRenderer.Texts.Fonts.Glyphs
+namespace BrightistRenderer.Texts.Fonts.Bios.Glyphs
 {
-    internal class LargePopupGlyphProvider : GlyphProvider
+    internal class LargePopupBiosGlyphProvider(BiosFontGlyphStruct[] glyphsData) : BiosGlyphProvider(glyphsData)
     {
         private const int GlyphWidth_ = 16;
         private const int GlyphHeight_ = 16;
-
-        public LargePopupGlyphProvider(BiosFontGlyphStruct[] glyphsData) : base(glyphsData)
-        {
-        }
 
         protected override CharacterDescriptionData CreateCharacterDescription(ushort code)
         {

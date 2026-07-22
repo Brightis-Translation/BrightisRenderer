@@ -7,9 +7,9 @@ namespace BrightistRenderer.Texts.Layouts
 {
     internal class TextLayouterProvider
     {
-        private static TextLayouter?[] _layouters = new TextLayouter?[2];
+        private static readonly TextLayouter?[] Layouters = new TextLayouter?[2];
 
-        public static TextLayouter? GetStoryText(int lineCount)
+        public static TextLayouter GetStoryText(FontType type, int lineCount)
         {
             int initY = lineCount <= 3 ? 179 : 179 - (lineCount - 3) * 15;
 
@@ -24,17 +24,15 @@ namespace BrightistRenderer.Texts.Layouts
                 TextSpacing = 1
             };
 
-            FontData? font = FontProvider.GetSmallStoryFont();
-            if (font == null)
-                return null;
+            FontData font = FontProvider.GetSmallStoryFont(type);
 
             return new TextLayouter(options, font);
         }
 
-        public static TextLayouter? GetPopupText()
+        public static TextLayouter GetPopupText(FontType type)
         {
-            if (_layouters[0] != null)
-                return _layouters[0]!;
+            if (Layouters[0] != null)
+                return Layouters[0]!;
 
             var options = new LayoutOptions
             {
@@ -47,17 +45,15 @@ namespace BrightistRenderer.Texts.Layouts
                 TextSpacing = 1
             };
 
-            FontData? font = FontProvider.GetLargePopupFont();
-            if (font == null)
-                return null;
+            FontData font = FontProvider.GetLargePopupFont(type);
 
-            return _layouters[0] = new TextLayouter(options, font);
+            return Layouters[0] = new TextLayouter(options, font);
         }
 
-        public static TextLayouter? GetSubPopupText()
+        public static TextLayouter GetSubPopupText(FontType type)
         {
-            if (_layouters[1] != null)
-                return _layouters[1]!;
+            if (Layouters[1] != null)
+                return Layouters[1]!;
 
             var options = new LayoutOptions
             {
@@ -70,11 +66,9 @@ namespace BrightistRenderer.Texts.Layouts
                 TextSpacing = 1
             };
 
-            FontData? font = FontProvider.GetLargePopupFont();
-            if (font == null)
-                return null;
+            FontData font = FontProvider.GetLargePopupFont(type);
 
-            return _layouters[1] = new TextLayouter(options, font);
+            return Layouters[1] = new TextLayouter(options, font);
         }
     }
 }

@@ -14,6 +14,12 @@
   "Menu.Metrics.Story.Caption": "Story",
   "Menu.Metrics.Popup.Caption": "Popup",
 
+  "Menu.Settings.Caption": "Settings",
+  "Menu.Settings.FontType.Caption": "Font",
+  "Menu.Settings.FontType.Bios.Caption": "Bios",
+  "Menu.Settings.FontType.Kay1.Caption": "Kay1",
+  "Menu.Settings.FontType.Kay4.Caption": "Kay4",
+
   // Metrics
   "Dialog.Metrics.Loading.Caption": "Loading...",
   "Dialog.Metrics.Story.Caption": "Validate story texts",

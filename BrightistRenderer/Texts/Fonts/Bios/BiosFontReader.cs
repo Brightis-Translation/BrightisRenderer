@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using BrightistRenderer.Models.Texts.Fonts;
+using BrightistRenderer.Models.Texts.Fonts.Bios;
 
-namespace BrightistRenderer.Texts.Fonts
+namespace BrightistRenderer.Texts.Fonts.Bios
 {
     /* Taken from PCSX Redux:
      * https://github.com/grumpycoders/pcsx-redux/blob/f807850426b53c9e3c7878aafbde6cc0f3f113bf/src/mips/openbios/charset/sjis.c

@@ -1,4 +1,4 @@
-﻿namespace BrightistRenderer.Models.Texts.Fonts
+﻿namespace BrightistRenderer.Models.Texts.Fonts.Bios
 {
     internal struct BiosFontGlyphStruct
     {

@@ -1,4 +1,5 @@
-﻿using BrightistRenderer.Models.Texts.Layouts;
+﻿using BrightistRenderer.Models.Texts.Fonts;
+using BrightistRenderer.Models.Texts.Layouts;
 using BrightistRenderer.Models.Texts.Parsers;
 using BrightistRenderer.Models.UI.Components;
 using BrightistRenderer.Models.UI.Events.Messages;
@@ -16,21 +17,23 @@ namespace BrightistRenderer.UI.Components.Previews
     internal class OverlayPopupPreviewComponent : OverlayPreviewComponent
     {
         private readonly TextParser _parser;
-        private readonly TextLayouter? _layouter;
-        private readonly TextLayouter? _subLayouter;
-        private readonly TextRenderer? _renderer;
+        private TextLayouter? _layouter;
+        private TextLayouter? _subLayouter;
+        private TextRenderer? _renderer;
 
         private PopupPreviewData? _previewData;
 
         public OverlayPopupPreviewComponent(OverlayEditorComponent parent) : base(parent)
         {
             _parser = TextParserProvider.GetDefault();
-            _layouter = TextLayouterProvider.GetPopupText();
-            _subLayouter = TextLayouterProvider.GetSubPopupText();
-            _renderer = TextRendererProvider.GetPopupText();
+
+            FontType fontType = SettingsProvider.Instance.GetFontType();
+            UpdateLayouters(fontType);
+            UpdateRenderer(fontType);
 
             EventBroker.Instance.Subscribe<OverlayPopupUpdatedMessage>(ProcessOverlayPopupUpdated);
             EventBroker.Instance.Subscribe<OverlayPopupChangedMessage>(ProcessOverlayPopupChanged);
+            EventBroker.Instance.Subscribe<FontTypeChangedMessage>(ProcessFontTypeChanged);
         }
 
         protected override int GetMaxCount() => 1;
@@ -68,7 +71,7 @@ namespace BrightistRenderer.UI.Components.Previews
                 return;
 
             _previewData = message.PreviewData;
-            
+
             UpdateIndex(0);
             UpdatePreview();
         }
@@ -83,6 +86,25 @@ namespace BrightistRenderer.UI.Components.Previews
             _previewData = message.PreviewData;
 
             UpdatePreview();
+        }
+
+        private void ProcessFontTypeChanged(FontTypeChangedMessage message)
+        {
+            UpdateLayouters(message.Type);
+            UpdateRenderer(message.Type);
+
+            UpdatePreview();
+        }
+
+        private void UpdateLayouters(FontType type)
+        {
+            _layouter = TextLayouterProvider.GetPopupText(type);
+            _subLayouter = TextLayouterProvider.GetSubPopupText(type);
+        }
+
+        private void UpdateRenderer(FontType type)
+        {
+            _renderer = TextRendererProvider.GetPopupText(type);
         }
     }
 }

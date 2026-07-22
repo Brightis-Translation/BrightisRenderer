@@ -27,7 +27,7 @@ namespace BrightistRenderer.UI.Localizations
             if (string.IsNullOrEmpty(applicationDirectory))
                 return Array.Empty<LanguageInfo>();
 
-            string localeDirectory = Path.Combine(applicationDirectory, "resources\\langs");
+            string localeDirectory = Path.Combine(applicationDirectory, "resources", "langs");
             if (!Directory.Exists(localeDirectory))
                 return Array.Empty<LanguageInfo>();
 
@@ -53,14 +53,14 @@ namespace BrightistRenderer.UI.Localizations
 
         protected override string InitializeLocale()
         {
-            return SettingsProvider.Instance.Get("BrightistRenderer.Settings.Locale", string.Empty);
+            return SettingsProvider.Instance.GetLocale();
         }
 
         protected override void SetCurrentLocale(string locale)
         {
             base.SetCurrentLocale(locale);
 
-            SettingsProvider.Instance.Set("BrightistRenderer.Settings.Locale", locale);
+            SettingsProvider.Instance.SetLocale(locale);
         }
     }
 }

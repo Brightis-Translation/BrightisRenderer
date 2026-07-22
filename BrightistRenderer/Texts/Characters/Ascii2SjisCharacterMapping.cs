@@ -7,8 +7,8 @@ namespace BrightistRenderer.Texts.Characters
     {
         private static readonly Encoding Sjis;
 
-        private static readonly ushort[] MapCharacters = new ushort[]
-        {
+        private static readonly ushort[] MapCharacters =
+        [
             0x8140, 0x8149, 0x818D, 0x8194, 0x8190, 0x8193, 0x8195, 0x818C,
             0x8169, 0x816A, 0x8196, 0x817B, 0x8143, 0x817C, 0x8144, 0x815E,
             0x824F, 0x8250, 0x8251, 0x8252, 0x8253, 0x8254, 0x8255, 0x8256, 0x8257, 0x8258,
@@ -19,7 +19,7 @@ namespace BrightistRenderer.Texts.Characters
             0x8281, 0x8282, 0x8283, 0x8284, 0x8285, 0x8286, 0x8287, 0x8288, 0x8289, 0x828A, 0x828B, 0x828C, 0x828D,
             0x828E, 0x828F, 0x8290, 0x8291, 0x8292, 0x8293, 0x8294, 0x8295, 0x8296, 0x8297, 0x8298, 0x8299, 0x829A,
             0x816F, 0x8162, 0x8170, 0x8160
-        };
+        ];
 
         static Ascii2SjisCharacterMapping()
         {
@@ -27,7 +27,7 @@ namespace BrightistRenderer.Texts.Characters
             Sjis = Encoding.GetEncoding("Shift-JIS");
         }
 
-        public static ushort Map(char code)
+        public static ushort Map(ushort code)
         {
             if (code >= 0x80)
             {

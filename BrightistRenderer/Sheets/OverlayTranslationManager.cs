@@ -26,9 +26,9 @@ namespace BrightistRenderer.Sheets
             if (_instance != null)
                 return _instance;
 
-            string clientId = ConfigProvider.Instance.GetClientId();
-            string clientSecret = ConfigProvider.Instance.GetClientSecret();
-            string sheetId = ConfigProvider.Instance.GetSheetId();
+            string clientId = ConfigManager.Instance.GetClientId();
+            string clientSecret = ConfigManager.Instance.GetClientSecret();
+            string sheetId = ConfigManager.Instance.GetSheetId();
 
             IOAuth2TokenStorage tokenStorage = new OAuth2TokenStorage();
             ICodeFlowManager codeFlow = OAuth2CodeFlowManager.Create(Scope.Write, clientId, clientSecret, tokenStorage);

@@ -1,4 +1,5 @@
-﻿using BrightistRenderer.Models.Texts.Layouts;
+﻿using BrightistRenderer.Models.Texts.Fonts;
+using BrightistRenderer.Models.Texts.Layouts;
 using BrightistRenderer.Models.Texts.Parsers;
 using BrightistRenderer.Models.Texts.Parsers.ControlCodes;
 using BrightistRenderer.Models.UI.Components;
@@ -31,7 +32,7 @@ namespace BrightistRenderer.UI.Components.Previews
         private readonly TextParser _parser;
         private readonly StoryTextParser _storyParser;
         private readonly TextInterpreter _interpreter;
-        private readonly TextRenderer? _renderer;
+        private TextRenderer? _renderer;
 
         private TextBlock[]? _characterBlocks;
 
@@ -61,7 +62,7 @@ namespace BrightistRenderer.UI.Components.Previews
             _parser = TextParserProvider.GetDefault();
             _storyParser = new StoryTextParser();
             _interpreter = new TextInterpreter(_state);
-            _renderer = TextRendererProvider.GetStoryText();
+            UpdateRenderer(SettingsProvider.Instance.GetFontType());
 
             _flagComboBox.SelectedItemChanged += _flagComboBox_SelectedItemChanged;
             _flagCheckbox.CheckChanged += _flagCheckbox_CheckChanged;
@@ -69,6 +70,7 @@ namespace BrightistRenderer.UI.Components.Previews
             EventBroker.Instance.Subscribe<OverlayStoryUpdatedMessage>(ProcessOverlayTextUpdated);
             EventBroker.Instance.Subscribe<OverlayStoryChangedMessage>(ProcessOverlayTextChanged);
             EventBroker.Instance.Subscribe<OverlayStoryIndexUpdatedMessage>(ProcessOverlayStoryIndexUpdated);
+            EventBroker.Instance.Subscribe<FontTypeChangedMessage>(ProcessFontTypeChanged);
         }
 
         private void _flagComboBox_SelectedItemChanged(object? sender, EventArgs e)
@@ -102,9 +104,7 @@ namespace BrightistRenderer.UI.Components.Previews
             if (characters == null)
                 return null;
 
-            TextLayouter? layouter = TextLayouterProvider.GetStoryText(lineCount);
-            if (layouter == null)
-                return null;
+            TextLayouter layouter = TextLayouterProvider.GetStoryText(SettingsProvider.Instance.GetFontType(), lineCount);
 
             Image<Rgba32> screen = ScreenProvider.GetStoryText();
 
@@ -238,6 +238,18 @@ namespace BrightistRenderer.UI.Components.Previews
             UpdateIndex(message.Index);
 
             UpdatePreview();
+        }
+
+        private void ProcessFontTypeChanged(FontTypeChangedMessage message)
+        {
+            UpdateRenderer(message.Type);
+            
+            UpdatePreview();
+        }
+
+        private void UpdateRenderer(FontType type)
+        {
+            _renderer = TextRendererProvider.GetStoryText(type);
         }
     }
 }

@@ -137,19 +137,17 @@ namespace BrightistRenderer.UI.Dialogs
         {
             IList<CharacterData> characters = _parser.Parse(previewData.ActiveSheetData.TranslatedText);
 
-            TextLayouter? layouter = GetTextLayouter(previewData);
-            if (layouter == null)
-                return Array.Empty<MetricDetailData>();
+            TextLayouter layouter = GetTextLayouter(previewData);
 
             TextLayoutData layout = layouter.Create(characters, BoundingBox);
             return _popupStrategy.Validate(layout, characters);
         }
 
-        private TextLayouter? GetTextLayouter(PopupPreviewData previewData)
+        private TextLayouter GetTextLayouter(PopupPreviewData previewData)
         {
             return previewData.ActiveSheetData == previewData.PopupSheetData
-                ? TextLayouterProvider.GetPopupText()
-                : TextLayouterProvider.GetSubPopupText();
+                ? TextLayouterProvider.GetPopupText(SettingsProvider.Instance.GetFontType())
+                : TextLayouterProvider.GetSubPopupText(SettingsProvider.Instance.GetFontType());
         }
 
         private PopupMetricData CreateMetricData(PopupPreviewData previewData, IList<MetricDetailData> metricDetails)
